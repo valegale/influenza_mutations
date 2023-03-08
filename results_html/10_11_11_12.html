@@ -1,0 +1,163 @@
+<head><style>p {color:#B5301E; display:inline}</style></head><html><h1>Co-occurring mutations in influenza virus</h1>Analysis of the mutations occurring from flu season 10/11 to flu season 11/12<h2>Co-occurring mutation network</h2><html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 2000px;
+                 height: 1000px;
+                 background-color: white;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"borderWidth": 4, "group": 2, "id": "na_N402D", "label": "na_N402D", "shape": "dot", "title": "Support: 0.47"}, {"borderWidth": 0, "group": 2, "id": "na_L81P", "label": "na_L81P", "shape": "dot", "title": "Support: 0.28"}, {"borderWidth": 0, "group": 1, "id": "ha_N161S", "label": "ha_N161S", "shape": "dot", "title": "Support: 0.2"}, {"borderWidth": 0, "group": 1, "id": "ha_D503N", "label": "ha_D503N", "shape": "dot", "title": "Support: 0.19"}, {"borderWidth": 4, "group": 1, "id": "ha_A214S", "label": "ha_A214S", "shape": "dot", "title": "Support: 0.18"}, {"borderWidth": 0, "group": 1, "id": "ha_V239I", "label": "ha_V239I", "shape": "dot", "title": "Support: 0.18"}, {"borderWidth": 0, "group": 2, "id": "na_D151X", "label": "na_D151X", "shape": "dot", "title": "Support: 0.16"}, {"borderWidth": 0, "group": 1, "id": "ha_K18E", "label": "ha_K18E", "shape": "dot", "title": "Support: 0.12"}, {"borderWidth": 0, "group": 2, "id": "na_R210K", "label": "na_R210K", "shape": "dot", "title": "Support: 0.1"}, {"borderWidth": 4, "group": 1, "id": "ha_R158G", "label": "ha_R158G", "shape": "dot", "title": "Support: 0.08"}, {"borderWidth": 0, "group": 2, "id": "na_A149V", "label": "na_A149V", "shape": "dot", "title": "Support: 0.05"}, {"borderWidth": 4, "group": 1, "id": "ha_S215A", "label": "ha_S215A", "shape": "dot", "title": "Support: 0.33"}, {"borderWidth": 0, "group": 2, "id": "na_D151B", "label": "na_D151B", "shape": "dot", "title": "Support: 0.11"}, {"borderWidth": 0, "group": 1, "id": "ha_N241D", "label": "ha_N241D", "shape": "dot", "title": "Support: 0.06"}, {"borderWidth": 0, "group": 1, "id": "ha_N328S", "label": "ha_N328S", "shape": "dot", "title": "Support: 0.1"}, {"borderWidth": 0, "group": 1, "id": "ha_I4T", "label": "ha_I4T", "shape": "dot", "title": "Support: 0.06"}, {"borderWidth": 0, "group": 2, "id": "na_S315R", "label": "na_S315R", "shape": "dot", "title": "Support: 0.06"}, {"borderWidth": 0, "group": 1, "id": "ha_Q517K", "label": "ha_Q517K", "shape": "dot", "title": "Support: 0.07"}, {"borderWidth": 0, "group": 1, "id": "ha_L19I", "label": "ha_L19I", "shape": "dot", "title": "Support: 0.05"}, {"borderWidth": 4, "group": 1, "id": "ha_I246V", "label": "ha_I246V", "shape": "dot", "title": "Support: 0.08"}, {"borderWidth": 0, "group": 1, "id": "ha_D69N", "label": "ha_D69N", "shape": "dot", "title": "Support: 0.08"}, {"borderWidth": 0, "group": 1, "id": "ha_E296A", "label": "ha_E296A", "shape": "dot", "title": "Support: 0.08"}, {"borderWidth": 0, "group": 1, "id": "ha_Y110H", "label": "ha_Y110H", "shape": "dot", "title": "Support: 0.08"}, {"borderWidth": 0, "group": 1, "id": "ha_B241N", "label": "ha_B241N", "shape": "dot", "title": "Support: 0.05"}, {"color": "f0d1ef", "id": "1", "label": "1", "shape": "box", "title": "Support: 0.23\nConfidence: 0.821\nZhang\u0027s metric: 0.594"}, {"color": "f0d1ef", "id": "2", "label": "2", "shape": "box", "title": "Support: 0.15\nConfidence: 0.75\nZhang\u0027s metric: 0.783"}, {"color": "f0d1ef", "id": "3", "label": "3", "shape": "box", "title": "Support: 0.15\nConfidence: 0.536\nZhang\u0027s metric: 0.87"}, {"color": "f0d1ef", "id": "4", "label": "4", "shape": "box", "title": "Support: 0.14\nConfidence: 0.7\nZhang\u0027s metric: 0.411"}, {"color": "f0d1ef", "id": "5", "label": "5", "shape": "box", "title": "Support: 0.19\nConfidence: 0.95\nZhang\u0027s metric: 1.0"}, {"color": "f0d1ef", "id": "6", "label": "6", "shape": "box", "title": "Support: 0.19\nConfidence: 1.0\nZhang\u0027s metric: 0.988"}, {"color": "f0d1ef", "id": "7", "label": "7", "shape": "box", "title": "Support: 0.15\nConfidence: 0.536\nZhang\u0027s metric: 0.896"}, {"color": "f0d1ef", "id": "8", "label": "8", "shape": "box", "title": "Support: 0.15\nConfidence: 0.789\nZhang\u0027s metric: 0.797"}, {"color": "f0d1ef", "id": "9", "label": "9", "shape": "box", "title": "Support: 0.14\nConfidence: 0.737\nZhang\u0027s metric: 0.447"}, {"color": "f0d1ef", "id": "10", "label": "10", "shape": "box", "title": "Support: 0.17\nConfidence: 0.895\nZhang\u0027s metric: 0.986"}, {"color": "f0d1ef", "id": "11", "label": "11", "shape": "box", "title": "Support: 0.17\nConfidence: 0.944\nZhang\u0027s metric: 0.974"}, {"color": "f0d1ef", "id": "12", "label": "12", "shape": "box", "title": "Support: 0.17\nConfidence: 0.85\nZhang\u0027s metric: 0.985"}, {"color": "f0d1ef", "id": "13", "label": "13", "shape": "box", "title": "Support: 0.17\nConfidence: 0.944\nZhang\u0027s metric: 0.961"}, {"color": "f0d1ef", "id": "14", "label": "14", "shape": "box", "title": "Support: 0.16\nConfidence: 0.571\nZhang\u0027s metric: 0.951"}, {"color": "f0d1ef", "id": "15", "label": "15", "shape": "box", "title": "Support: 0.16\nConfidence: 0.889\nZhang\u0027s metric: 0.835"}, {"color": "f0d1ef", "id": "16", "label": "16", "shape": "box", "title": "Support: 0.15\nConfidence: 0.833\nZhang\u0027s metric: 0.532"}, {"color": "f0d1ef", "id": "17", "label": "17", "shape": "box", "title": "Support: 0.18\nConfidence: 1.0\nZhang\u0027s metric: 0.988"}, {"color": "f0d1ef", "id": "18", "label": "18", "shape": "box", "title": "Support: 0.18\nConfidence: 0.947\nZhang\u0027s metric: 1.0"}, {"color": "f0d1ef", "id": "19", "label": "19", "shape": "box", "title": "Support: 0.18\nConfidence: 0.9\nZhang\u0027s metric: 1.0"}, {"color": "f0d1ef", "id": "20", "label": "20", "shape": "box", "title": "Support: 0.18\nConfidence: 1.0\nZhang\u0027s metric: 0.976"}, {"color": "f0d1ef", "id": "21", "label": "21", "shape": "box", "title": "Support: 0.16\nConfidence: 0.889\nZhang\u0027s metric: 0.973"}, {"color": "f0d1ef", "id": "22", "label": "22", "shape": "box", "title": "Support: 0.16\nConfidence: 0.889\nZhang\u0027s metric: 0.973"}, {"color": "f0d1ef", "id": "23", "label": "23", "shape": "box", "title": "Support: 0.14\nConfidence: 0.778\nZhang\u0027s metric: 0.78"}, {"color": "f0d1ef", "id": "24", "label": "24", "shape": "box", "title": "Support: 0.14\nConfidence: 0.5\nZhang\u0027s metric: 0.889"}, {"color": "f0d1ef", "id": "25", "label": "25", "shape": "box", "title": "Support: 0.13\nConfidence: 0.722\nZhang\u0027s metric: 0.426"}, {"color": "f0d1ef", "id": "26", "label": "26", "shape": "box", "title": "Support: 0.09\nConfidence: 0.562\nZhang\u0027s metric: 0.492"}, {"color": "f0d1ef", "id": "27", "label": "27", "shape": "box", "title": "Support: 0.1\nConfidence: 0.833\nZhang\u0027s metric: 0.495"}, {"color": "f0d1ef", "id": "28", "label": "28", "shape": "box", "title": "Support: 0.09\nConfidence: 0.75\nZhang\u0027s metric: 0.712"}, {"color": "f0d1ef", "id": "29", "label": "29", "shape": "box", "title": "Support: 0.08\nConfidence: 0.8\nZhang\u0027s metric: 0.458"}, {"color": "f0d1ef", "id": "30", "label": "30", "shape": "box", "title": "Support: 0.06\nConfidence: 0.6\nZhang\u0027s metric: 0.778"}, {"color": "f0d1ef", "id": "31", "label": "31", "shape": "box", "title": "Support: 0.05\nConfidence: 0.5\nZhang\u0027s metric: 0.711"}, {"color": "f0d1ef", "id": "32", "label": "32", "shape": "box", "title": "Support: 0.05\nConfidence: 0.5\nZhang\u0027s metric: 0.689"}, {"color": "f0d1ef", "id": "33", "label": "33", "shape": "box", "title": "Support: 0.05\nConfidence: 0.5\nZhang\u0027s metric: 0.667"}, {"color": "f0d1ef", "id": "34", "label": "34", "shape": "box", "title": "Support: 0.06\nConfidence: 0.6\nZhang\u0027s metric: 0.963"}, {"color": "f0d1ef", "id": "35", "label": "35", "shape": "box", "title": "Support: 0.06\nConfidence: 0.75\nZhang\u0027s metric: 0.942"}, {"color": "f0d1ef", "id": "36", "label": "36", "shape": "box", "title": "Support: 0.06\nConfidence: 0.75\nZhang\u0027s metric: 0.406"}, {"color": "f0d1ef", "id": "37", "label": "37", "shape": "box", "title": "Support: 0.09\nConfidence: 0.818\nZhang\u0027s metric: 0.478"}, {"color": "f0d1ef", "id": "38", "label": "38", "shape": "box", "title": "Support: 0.1\nConfidence: 1.0\nZhang\u0027s metric: 0.911"}, {"color": "f0d1ef", "id": "39", "label": "39", "shape": "box", "title": "Support: 0.1\nConfidence: 0.556\nZhang\u0027s metric: 1.0"}, {"color": "f0d1ef", "id": "40", "label": "40", "shape": "box", "title": "Support: 0.1\nConfidence: 0.526\nZhang\u0027s metric: 1.0"}, {"color": "f0d1ef", "id": "41", "label": "41", "shape": "box", "title": "Support: 0.1\nConfidence: 1.0\nZhang\u0027s metric: 0.9"}, {"color": "f0d1ef", "id": "42", "label": "42", "shape": "box", "title": "Support: 0.1\nConfidence: 0.5\nZhang\u0027s metric: 1.0"}, {"color": "f0d1ef", "id": "43", "label": "43", "shape": "box", "title": "Support: 0.1\nConfidence: 1.0\nZhang\u0027s metric: 0.889"}, {"color": "f0d1ef", "id": "44", "label": "44", "shape": "box", "title": "Support: 0.09\nConfidence: 0.9\nZhang\u0027s metric: 0.765"}, {"color": "f0d1ef", "id": "45", "label": "45", "shape": "box", "title": "Support: 0.07\nConfidence: 0.7\nZhang\u0027s metric: 0.365"}, {"color": "f0d1ef", "id": "46", "label": "46", "shape": "box", "title": "Support: 0.09\nConfidence: 0.5\nZhang\u0027s metric: 0.976"}, {"color": "f0d1ef", "id": "47", "label": "47", "shape": "box", "title": "Support: 0.09\nConfidence: 0.9\nZhang\u0027s metric: 0.889"}, {"color": "f0d1ef", "id": "48", "label": "48", "shape": "box", "title": "Support: 0.07\nConfidence: 1.0\nZhang\u0027s metric: 0.57"}, {"color": "f0d1ef", "id": "49", "label": "49", "shape": "box", "title": "Support: 0.05\nConfidence: 1.0\nZhang\u0027s metric: 0.758"}, {"color": "f0d1ef", "id": "50", "label": "50", "shape": "box", "title": "Support: 0.07\nConfidence: 0.875\nZhang\u0027s metric: 0.677"}, {"color": "f0d1ef", "id": "51", "label": "51", "shape": "box", "title": "Support: 0.08\nConfidence: 1.0\nZhang\u0027s metric: 1.0"}, {"color": "f0d1ef", "id": "52", "label": "52", "shape": "box", "title": "Support: 0.08\nConfidence: 1.0\nZhang\u0027s metric: 1.0"}, {"color": "f0d1ef", "id": "53", "label": "53", "shape": "box", "title": "Support: 0.07\nConfidence: 0.875\nZhang\u0027s metric: 0.677"}, {"color": "f0d1ef", "id": "54", "label": "54", "shape": "box", "title": "Support: 0.08\nConfidence: 1.0\nZhang\u0027s metric: 1.0"}, {"color": "f0d1ef", "id": "55", "label": "55", "shape": "box", "title": "Support: 0.08\nConfidence: 1.0\nZhang\u0027s metric: 1.0"}, {"color": "f0d1ef", "id": "56", "label": "56", "shape": "box", "title": "Support: 0.08\nConfidence: 1.0\nZhang\u0027s metric: 1.0"}, {"color": "f0d1ef", "id": "57", "label": "57", "shape": "box", "title": "Support: 0.08\nConfidence: 1.0\nZhang\u0027s metric: 1.0"}, {"color": "f0d1ef", "id": "58", "label": "58", "shape": "box", "title": "Support: 0.07\nConfidence: 0.875\nZhang\u0027s metric: 0.677"}, {"color": "f0d1ef", "id": "59", "label": "59", "shape": "box", "title": "Support: 0.08\nConfidence: 1.0\nZhang\u0027s metric: 1.0"}, {"color": "f0d1ef", "id": "60", "label": "60", "shape": "box", "title": "Support: 0.08\nConfidence: 1.0\nZhang\u0027s metric: 1.0"}, {"color": "f0d1ef", "id": "61", "label": "61", "shape": "box", "title": "Support: 0.08\nConfidence: 1.0\nZhang\u0027s metric: 1.0"}, {"color": "f0d1ef", "id": "62", "label": "62", "shape": "box", "title": "Support: 0.08\nConfidence: 1.0\nZhang\u0027s metric: 1.0"}, {"color": "f0d1ef", "id": "63", "label": "63", "shape": "box", "title": "Support: 0.08\nConfidence: 1.0\nZhang\u0027s metric: 1.0"}, {"color": "f0d1ef", "id": "64", "label": "64", "shape": "box", "title": "Support: 0.08\nConfidence: 1.0\nZhang\u0027s metric: 1.0"}, {"color": "f0d1ef", "id": "65", "label": "65", "shape": "box", "title": "Support: 0.07\nConfidence: 0.875\nZhang\u0027s metric: 0.677"}]);
+                  edges = new vis.DataSet([{"arrows": "to", "color": "grey", "from": "na_L81P", "to": "1", "value": 0.23}, {"arrows": "to", "color": "grey", "from": "1", "to": "na_N402D", "value": 0.23}, {"arrows": "to", "color": "grey", "from": "ha_N161S", "to": "2", "value": 0.15}, {"arrows": "to", "color": "grey", "from": "2", "to": "na_L81P", "value": 0.15}, {"arrows": "to", "color": "6CC776", "from": "na_L81P", "to": "3", "value": 0.15}, {"arrows": "to", "color": "6CC776", "from": "3", "to": "ha_N161S", "value": 0.15}, {"arrows": "to", "color": "grey", "from": "ha_N161S", "to": "4", "value": 0.14}, {"arrows": "to", "color": "grey", "from": "4", "to": "na_N402D", "value": 0.14}, {"arrows": "to", "color": "6CC776", "from": "ha_N161S", "to": "5", "value": 0.19}, {"arrows": "to", "color": "6CC776", "from": "5", "to": "ha_D503N", "value": 0.19}, {"arrows": "to", "color": "6CC776", "from": "ha_D503N", "to": "6", "value": 0.19}, {"arrows": "to", "color": "6CC776", "from": "6", "to": "ha_N161S", "value": 0.19}, {"arrows": "to", "color": "6CC776", "from": "na_L81P", "to": "7", "value": 0.15}, {"arrows": "to", "color": "6CC776", "from": "7", "to": "ha_D503N", "value": 0.15}, {"arrows": "to", "color": "grey", "from": "ha_D503N", "to": "8", "value": 0.15}, {"arrows": "to", "color": "grey", "from": "8", "to": "na_L81P", "value": 0.15}, {"arrows": "to", "color": "grey", "from": "ha_D503N", "to": "9", "value": 0.14}, {"arrows": "to", "color": "grey", "from": "9", "to": "na_N402D", "value": 0.14}, {"arrows": "to", "color": "6CC776", "from": "ha_D503N", "to": "10", "value": 0.17}, {"arrows": "to", "color": "6CC776", "from": "10", "to": "ha_A214S", "value": 0.17}, {"arrows": "to", "color": "6CC776", "from": "ha_A214S", "to": "11", "value": 0.17}, {"arrows": "to", "color": "6CC776", "from": "11", "to": "ha_D503N", "value": 0.17}, {"arrows": "to", "color": "6CC776", "from": "ha_N161S", "to": "12", "value": 0.17}, {"arrows": "to", "color": "6CC776", "from": "12", "to": "ha_A214S", "value": 0.17}, {"arrows": "to", "color": "6CC776", "from": "ha_A214S", "to": "13", "value": 0.17}, {"arrows": "to", "color": "6CC776", "from": "13", "to": "ha_N161S", "value": 0.17}, {"arrows": "to", "color": "6CC776", "from": "na_L81P", "to": "14", "value": 0.16}, {"arrows": "to", "color": "6CC776", "from": "14", "to": "ha_A214S", "value": 0.16}, {"arrows": "to", "color": "grey", "from": "ha_A214S", "to": "15", "value": 0.16}, {"arrows": "to", "color": "grey", "from": "15", "to": "na_L81P", "value": 0.16}, {"arrows": "to", "color": "grey", "from": "ha_A214S", "to": "16", "value": 0.15}, {"arrows": "to", "color": "grey", "from": "16", "to": "na_N402D", "value": 0.15}, {"arrows": "to", "color": "6CC776", "from": "ha_V239I", "to": "17", "value": 0.18}, {"arrows": "to", "color": "6CC776", "from": "17", "to": "ha_D503N", "value": 0.18}, {"arrows": "to", "color": "6CC776", "from": "ha_D503N", "to": "18", "value": 0.18}, {"arrows": "to", "color": "6CC776", "from": "18", "to": "ha_V239I", "value": 0.18}, {"arrows": "to", "color": "6CC776", "from": "ha_N161S", "to": "19", "value": 0.18}, {"arrows": "to", "color": "6CC776", "from": "19", "to": "ha_V239I", "value": 0.18}, {"arrows": "to", "color": "6CC776", "from": "ha_V239I", "to": "20", "value": 0.18}, {"arrows": "to", "color": "6CC776", "from": "20", "to": "ha_N161S", "value": 0.18}, {"arrows": "to", "color": "6CC776", "from": "ha_V239I", "to": "21", "value": 0.16}, {"arrows": "to", "color": "6CC776", "from": "21", "to": "ha_A214S", "value": 0.16}, {"arrows": "to", "color": "6CC776", "from": "ha_A214S", "to": "22", "value": 0.16}, {"arrows": "to", "color": "6CC776", "from": "22", "to": "ha_V239I", "value": 0.16}, {"arrows": "to", "color": "grey", "from": "ha_V239I", "to": "23", "value": 0.14}, {"arrows": "to", "color": "grey", "from": "23", "to": "na_L81P", "value": 0.14}, {"arrows": "to", "color": "6CC776", "from": "na_L81P", "to": "24", "value": 0.14}, {"arrows": "to", "color": "6CC776", "from": "24", "to": "ha_V239I", "value": 0.14}, {"arrows": "to", "color": "grey", "from": "ha_V239I", "to": "25", "value": 0.13}, {"arrows": "to", "color": "grey", "from": "25", "to": "na_N402D", "value": 0.13}, {"arrows": "to", "color": "grey", "from": "na_D151X", "to": "26", "value": 0.09}, {"arrows": "to", "color": "grey", "from": "26", "to": "ha_S215A", "value": 0.09}, {"arrows": "to", "color": "grey", "from": "ha_K18E", "to": "27", "value": 0.1}, {"arrows": "to", "color": "grey", "from": "27", "to": "na_N402D", "value": 0.1}, {"arrows": "to", "color": "grey", "from": "ha_K18E", "to": "28", "value": 0.09}, {"arrows": "to", "color": "grey", "from": "28", "to": "na_L81P", "value": 0.09}, {"arrows": "to", "color": "grey", "from": "na_R210K", "to": "29", "value": 0.08}, {"arrows": "to", "color": "grey", "from": "29", "to": "na_N402D", "value": 0.08}, {"arrows": "to", "color": "grey", "from": "na_R210K", "to": "30", "value": 0.06}, {"arrows": "to", "color": "grey", "from": "30", "to": "ha_A214S", "value": 0.06}, {"arrows": "to", "color": "grey", "from": "na_R210K", "to": "31", "value": 0.05}, {"arrows": "to", "color": "grey", "from": "31", "to": "ha_V239I", "value": 0.05}, {"arrows": "to", "color": "grey", "from": "na_R210K", "to": "32", "value": 0.05}, {"arrows": "to", "color": "grey", "from": "32", "to": "ha_D503N", "value": 0.05}, {"arrows": "to", "color": "grey", "from": "na_R210K", "to": "33", "value": 0.05}, {"arrows": "to", "color": "grey", "from": "33", "to": "ha_N161S", "value": 0.05}, {"arrows": "to", "color": "6CC776", "from": "na_R210K", "to": "34", "value": 0.06}, {"arrows": "to", "color": "6CC776", "from": "34", "to": "ha_R158G", "value": 0.06}, {"arrows": "to", "color": "6CC776", "from": "ha_R158G", "to": "35", "value": 0.06}, {"arrows": "to", "color": "6CC776", "from": "35", "to": "na_R210K", "value": 0.06}, {"arrows": "to", "color": "grey", "from": "ha_R158G", "to": "36", "value": 0.06}, {"arrows": "to", "color": "grey", "from": "36", "to": "na_N402D", "value": 0.06}, {"arrows": "to", "color": "grey", "from": "na_D151B", "to": "37", "value": 0.09}, {"arrows": "to", "color": "grey", "from": "37", "to": "na_N402D", "value": 0.09}, {"arrows": "to", "color": "6CC776", "from": "ha_N328S", "to": "38", "value": 0.1}, {"arrows": "to", "color": "6CC776", "from": "38", "to": "ha_A214S", "value": 0.1}, {"arrows": "to", "color": "6CC776", "from": "ha_A214S", "to": "39", "value": 0.1}, {"arrows": "to", "color": "6CC776", "from": "39", "to": "ha_N328S", "value": 0.1}, {"arrows": "to", "color": "6CC776", "from": "ha_D503N", "to": "40", "value": 0.1}, {"arrows": "to", "color": "6CC776", "from": "40", "to": "ha_N328S", "value": 0.1}, {"arrows": "to", "color": "6CC776", "from": "ha_N328S", "to": "41", "value": 0.1}, {"arrows": "to", "color": "6CC776", "from": "41", "to": "ha_D503N", "value": 0.1}, {"arrows": "to", "color": "6CC776", "from": "ha_N161S", "to": "42", "value": 0.1}, {"arrows": "to", "color": "6CC776", "from": "42", "to": "ha_N328S", "value": 0.1}, {"arrows": "to", "color": "6CC776", "from": "ha_N328S", "to": "43", "value": 0.1}, {"arrows": "to", "color": "6CC776", "from": "43", "to": "ha_N161S", "value": 0.1}, {"arrows": "to", "color": "grey", "from": "ha_N328S", "to": "44", "value": 0.09}, {"arrows": "to", "color": "grey", "from": "44", "to": "na_L81P", "value": 0.09}, {"arrows": "to", "color": "grey", "from": "ha_N328S", "to": "45", "value": 0.07}, {"arrows": "to", "color": "grey", "from": "45", "to": "na_N402D", "value": 0.07}, {"arrows": "to", "color": "6CC776", "from": "ha_V239I", "to": "46", "value": 0.09}, {"arrows": "to", "color": "6CC776", "from": "46", "to": "ha_N328S", "value": 0.09}, {"arrows": "to", "color": "6CC776", "from": "ha_N328S", "to": "47", "value": 0.09}, {"arrows": "to", "color": "6CC776", "from": "47", "to": "ha_V239I", "value": 0.09}, {"arrows": "to", "color": "grey", "from": "ha_Q517K", "to": "48", "value": 0.07}, {"arrows": "to", "color": "grey", "from": "48", "to": "na_N402D", "value": 0.07}, {"arrows": "to", "color": "grey", "from": "ha_L19I", "to": "49", "value": 0.05}, {"arrows": "to", "color": "grey", "from": "49", "to": "na_L81P", "value": 0.05}, {"arrows": "to", "color": "grey", "from": "ha_I246V", "to": "50", "value": 0.07}, {"arrows": "to", "color": "grey", "from": "50", "to": "ha_S215A", "value": 0.07}, {"arrows": "to", "color": "6CC776", "from": "ha_I246V", "to": "51", "value": 0.08}, {"arrows": "to", "color": "6CC776", "from": "51", "to": "ha_D69N", "value": 0.08}, {"arrows": "to", "color": "6CC776", "from": "ha_D69N", "to": "52", "value": 0.08}, {"arrows": "to", "color": "6CC776", "from": "52", "to": "ha_I246V", "value": 0.08}, {"arrows": "to", "color": "grey", "from": "ha_D69N", "to": "53", "value": 0.07}, {"arrows": "to", "color": "grey", "from": "53", "to": "ha_S215A", "value": 0.07}, {"arrows": "to", "color": "6CC776", "from": "ha_E296A", "to": "54", "value": 0.08}, {"arrows": "to", "color": "6CC776", "from": "54", "to": "ha_D69N", "value": 0.08}, {"arrows": "to", "color": "6CC776", "from": "ha_D69N", "to": "55", "value": 0.08}, {"arrows": "to", "color": "6CC776", "from": "55", "to": "ha_E296A", "value": 0.08}, {"arrows": "to", "color": "6CC776", "from": "ha_E296A", "to": "56", "value": 0.08}, {"arrows": "to", "color": "6CC776", "from": "56", "to": "ha_I246V", "value": 0.08}, {"arrows": "to", "color": "6CC776", "from": "ha_I246V", "to": "57", "value": 0.08}, {"arrows": "to", "color": "6CC776", "from": "57", "to": "ha_E296A", "value": 0.08}, {"arrows": "to", "color": "grey", "from": "ha_E296A", "to": "58", "value": 0.07}, {"arrows": "to", "color": "grey", "from": "58", "to": "ha_S215A", "value": 0.07}, {"arrows": "to", "color": "6CC776", "from": "ha_E296A", "to": "59", "value": 0.08}, {"arrows": "to", "color": "6CC776", "from": "59", "to": "ha_Y110H", "value": 0.08}, {"arrows": "to", "color": "6CC776", "from": "ha_Y110H", "to": "60", "value": 0.08}, {"arrows": "to", "color": "6CC776", "from": "60", "to": "ha_E296A", "value": 0.08}, {"arrows": "to", "color": "6CC776", "from": "ha_Y110H", "to": "61", "value": 0.08}, {"arrows": "to", "color": "6CC776", "from": "61", "to": "ha_D69N", "value": 0.08}, {"arrows": "to", "color": "6CC776", "from": "ha_D69N", "to": "62", "value": 0.08}, {"arrows": "to", "color": "6CC776", "from": "62", "to": "ha_Y110H", "value": 0.08}, {"arrows": "to", "color": "6CC776", "from": "ha_I246V", "to": "63", "value": 0.08}, {"arrows": "to", "color": "6CC776", "from": "63", "to": "ha_Y110H", "value": 0.08}, {"arrows": "to", "color": "6CC776", "from": "ha_Y110H", "to": "64", "value": 0.08}, {"arrows": "to", "color": "6CC776", "from": "64", "to": "ha_I246V", "value": 0.08}, {"arrows": "to", "color": "grey", "from": "ha_Y110H", "to": "65", "value": 0.07}, {"arrows": "to", "color": "grey", "from": "65", "to": "ha_S215A", "value": 0.07}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "repulsion": {
+            "centralGravity": 0.2,
+            "damping": 0.09,
+            "nodeDistance": 100,
+            "springConstant": 0.05,
+            "springLength": 200
+        },
+        "solver": "repulsion",
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>The network includes all mutations with <b>minimum support &gt;=0.05</b> and <b>minimum confidence &gt;= 0.5. </b>Each pink box represents a rule. Support, Confidence, and Zhang's metric can be visualized by pointing the cursor directly on the node. <br />Each mutation is a node and the support for the individual mutation can be visualized by pointing the cursor on the node. HA and NA mutation nodes have different colors. <br />Mutations in the antigenic regions have a colored border around the node. <br />Each rule has directed edges coming out and in, according to the direction of the rule. The thickness of the edge indicates the support of the rule and rules with a high Zhang's metric (likely to be associated) are indicated with a green line.<h1>Analysis and prediction</h1>Analysis of the most relevant mutations. Mutations in red occurred in the antigenic region.<h2>Possible drivers of evolution</h2>This list is obtained by extracting the nodes with indegree - outdegree &gt;= 2. Mutations with a higher out degree are likely to be key mutations of the virus, as this means that they cannot be predicted by the occurrence of other mutations, but many other mutations are associated with them.<table class="table table-bordered table-responsive table-striped"><thead class="thead-light"><tr><th>Protein</th><th>Mutation</th><th>Aminoacid position</th><th>Support</th></tr><tr><td>Neuraminidase</td><td>L -&gt; P</td><td>81</td><td>0.28</td></tr><tr><td>Neuraminidase</td><td>N -&gt; D</td><td><p>402</p></td><td>0.47</td></tr><tr><td>Hemagglutinin</td><td>S -&gt; A</td><td><p>215</p></td><td>0.33</td></tr></thead></table><h2>List of predicted co-occurring mutations</h2>The following list includes all pair of association that has a high Zhang's metric<table class="table table-bordered table-responsive table-striped"><thead class="thead-light"><tr><th>Mutations</th><th>Support</th><th>Zhangs metrics</th></tr><tr><td>ha_N161S  &lt;-&gt; ha_D503N</td><td>0.19</td><td>[1.0, 0.988]</td></tr><tr><td>ha_V239I  &lt;-&gt; ha_D503N</td><td>0.18</td><td>[0.988, 1.0]</td></tr><tr><td>ha_N161S  &lt;-&gt; ha_V239I</td><td>0.18</td><td>[1.0, 0.976]</td></tr><tr><td>ha_D503N  &lt;-&gt; <p>ha_A214S</p></td><td>0.17</td><td>[0.986, 0.974]</td></tr><tr><td>ha_N161S  &lt;-&gt; <p>ha_A214S</p></td><td>0.17</td><td>[0.985, 0.961]</td></tr><tr><td>na_L81P  -&gt; ha_A214S</td><td>0.16</td><td>[0.951]</td></tr><tr><td>ha_V239I  &lt;-&gt; <p>ha_A214S</p></td><td>0.16</td><td>[0.973, 0.973]</td></tr><tr><td>na_L81P  -&gt; ha_N161S</td><td>0.15</td><td>[0.87]</td></tr><tr><td>na_L81P  -&gt; ha_D503N</td><td>0.15</td><td>[0.896]</td></tr><tr><td>na_L81P  -&gt; ha_V239I</td><td>0.14</td><td>[0.889]</td></tr><tr><td>ha_N328S  &lt;-&gt; <p>ha_A214S</p></td><td>0.1</td><td>[0.911, 1.0]</td></tr><tr><td>ha_D503N  &lt;-&gt; ha_N328S</td><td>0.1</td><td>[1.0, 0.9]</td></tr><tr><td>ha_N161S  &lt;-&gt; ha_N328S</td><td>0.1</td><td>[1.0, 0.889]</td></tr><tr><td>ha_V239I  &lt;-&gt; ha_N328S</td><td>0.09</td><td>[0.976, 0.889]</td></tr><tr><td><p>ha_I246V</p>  &lt;-&gt; ha_D69N</td><td>0.08</td><td>[1.0, 1.0]</td></tr><tr><td>ha_E296A  &lt;-&gt; ha_D69N</td><td>0.08</td><td>[1.0, 1.0]</td></tr><tr><td>ha_E296A  &lt;-&gt; <p>ha_I246V</p></td><td>0.08</td><td>[1.0, 1.0]</td></tr><tr><td>ha_E296A  &lt;-&gt; ha_Y110H</td><td>0.08</td><td>[1.0, 1.0]</td></tr><tr><td>ha_Y110H  &lt;-&gt; ha_D69N</td><td>0.08</td><td>[1.0, 1.0]</td></tr><tr><td><p>ha_I246V</p>  &lt;-&gt; ha_Y110H</td><td>0.08</td><td>[1.0, 1.0]</td></tr><tr><td>na_R210K  &lt;-&gt; <p>ha_R158G</p></td><td>0.06</td><td>[0.963, 0.942]</td></tr></thead></table><h3>Co-occurring clusters of mutations</h3>Connected component network analysis is used to identify the subgraphs in which each pair of nodes is connected with each other via a path.<table class="table table-bordered table-responsive table-striped"><thead class="thead-light"><tr><th>Clusters of mutations</th></tr><tr><td>ha_V239I, na_L81P, <p>ha_A214S</p>, ha_N328S, ha_N161S, ha_D503N, </td></tr><tr><td>na_R210K, <p>ha_R158G</p>, </td></tr><tr><td>ha_E296A, <p>ha_I246V</p>, ha_D69N, ha_Y110H, </td></tr></thead></table><h2>N-glycosylation site prediction<table class="table table-bordered table-responsive table-striped"><thead class="thead-light"><tr><th>Emerging N-glycosylation sites</th><th>Support</th></tr><tr><td>['ha_D69N']</td><td>[0.08]</td></tr><tr><td>['ha_D503N']</td><td>[0.19]</td></tr></thead></table><table class="table table-bordered table-responsive table-striped"><thead class="thead-light"><tr><th>Disappearing N-glycosylation sites</th><th>Support</th></tr><tr><td>na_N402D</td><td>0.47</td></tr><tr><td>ha_N161S</td><td>0.2</td></tr><tr><td>ha_N241D</td><td>0.06</td></tr><tr><td>ha_N328S</td><td>0.1</td></tr></thead></table></h2></html>

@@ -1,0 +1,258 @@
+<head><style>p {color:#B5301E; display:inline}</style></head><html><h1>Co-occurring mutations in influenza virus</h1>Analysis of the mutations occurring from flu season 17/18 to flu season 18/19<h2>Co-occurring mutation network</h2><html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 2000px;
+                 height: 1000px;
+                 background-color: white;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+             #loadingBar {
+                 position:absolute;
+                 top:0px;
+                 left:0px;
+                 width: 2000px;
+                 height: 1000px;
+                 background-color:rgba(200,200,200,0.8);
+                 -webkit-transition: all 0.5s ease;
+                 -moz-transition: all 0.5s ease;
+                 -ms-transition: all 0.5s ease;
+                 -o-transition: all 0.5s ease;
+                 transition: all 0.5s ease;
+                 opacity:1;
+             }
+
+             #bar {
+                 position:absolute;
+                 top:0px;
+                 left:0px;
+                 width:20px;
+                 height:20px;
+                 margin:auto auto auto auto;
+                 border-radius:11px;
+                 border:2px solid rgba(30,30,30,0.05);
+                 background: rgb(0, 173, 246); /* Old browsers */
+                 box-shadow: 2px 0px 4px rgba(0,0,0,0.4);
+             }
+
+             #border {
+                 position:absolute;
+                 top:10px;
+                 left:10px;
+                 width:500px;
+                 height:23px;
+                 margin:auto auto auto auto;
+                 box-shadow: 0px 0px 4px rgba(0,0,0,0.2);
+                 border-radius:10px;
+             }
+
+             #text {
+                 position:absolute;
+                 top:8px;
+                 left:530px;
+                 width:30px;
+                 height:50px;
+                 margin:auto auto auto auto;
+                 font-size:22px;
+                 color: #000000;
+             }
+
+             div.outerBorder {
+                 position:relative;
+                 top:400px;
+                 width:600px;
+                 height:44px;
+                 margin:auto auto auto auto;
+                 border:8px solid rgba(0,0,0,0.1);
+                 background: rgb(252,252,252); /* Old browsers */
+                 background: -moz-linear-gradient(top,  rgba(252,252,252,1) 0%, rgba(237,237,237,1) 100%); /* FF3.6+ */
+                 background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(252,252,252,1)), color-stop(100%,rgba(237,237,237,1))); /* Chrome,Safari4+ */
+                 background: -webkit-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* Chrome10+,Safari5.1+ */
+                 background: -o-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* Opera 11.10+ */
+                 background: -ms-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* IE10+ */
+                 background: linear-gradient(to bottom,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* W3C */
+                 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfcfc', endColorstr='#ededed',GradientType=0 ); /* IE6-9 */
+                 border-radius:72px;
+                 box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+             }
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+            <div id="loadingBar">
+              <div class="outerBorder">
+                <div id="text">0%</div>
+                <div id="border">
+                  <div id="bar"></div>
+                </div>
+              </div>
+            </div>
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"borderWidth": 0, "group": 2, "id": "na_P386S", "label": "na_P386S", "shape": "dot", "title": "Support: 0.43"}, {"borderWidth": 0, "group": 2, "id": "na_N161S", "label": "na_N161S", "shape": "dot", "title": "Support: 0.39"}, {"borderWidth": 4, "group": 1, "id": "ha_A228T", "label": "ha_A228T", "shape": "dot", "title": "Support: 0.16"}, {"borderWidth": 0, "group": 2, "id": "na_I307M", "label": "na_I307M", "shape": "dot", "title": "Support: 0.16"}, {"borderWidth": 0, "group": 1, "id": "ha_M478T", "label": "ha_M478T", "shape": "dot", "title": "Support: 0.14"}, {"borderWidth": 0, "group": 1, "id": "ha_V545I", "label": "ha_V545I", "shape": "dot", "title": "Support: 0.13"}, {"borderWidth": 0, "group": 1, "id": "ha_M362L", "label": "ha_M362L", "shape": "dot", "title": "Support: 0.38"}, {"borderWidth": 0, "group": 1, "id": "ha_A546V", "label": "ha_A546V", "shape": "dot", "title": "Support: 0.38"}, {"borderWidth": 0, "group": 2, "id": "na_G399D", "label": "na_G399D", "shape": "dot", "title": "Support: 0.06"}, {"borderWidth": 0, "group": 2, "id": "na_S315R", "label": "na_S315R", "shape": "dot", "title": "Support: 0.14"}, {"borderWidth": 4, "group": 2, "id": "na_E344K", "label": "na_E344K", "shape": "dot", "title": "Support: 0.1"}, {"borderWidth": 0, "group": 1, "id": "ha_T147K", "label": "ha_T147K", "shape": "dot", "title": "Support: 0.1"}, {"borderWidth": 0, "group": 1, "id": "ha_V363M", "label": "ha_V363M", "shape": "dot", "title": "Support: 0.09"}, {"borderWidth": 0, "group": 1, "id": "ha_S235F", "label": "ha_S235F", "shape": "dot", "title": "Support: 0.06"}, {"borderWidth": 4, "group": 2, "id": "na_G346D", "label": "na_G346D", "shape": "dot", "title": "Support: 0.05"}, {"borderWidth": 0, "group": 1, "id": "ha_R49Q", "label": "ha_R49Q", "shape": "dot", "title": "Support: 0.16"}, {"borderWidth": 4, "group": 1, "id": "ha_D307E", "label": "ha_D307E", "shape": "dot", "title": "Support: 0.07"}, {"borderWidth": 0, "group": 2, "id": "na_D356E", "label": "na_D356E", "shape": "dot", "title": "Support: 0.35"}, {"borderWidth": 0, "group": 1, "id": "ha_N69D", "label": "ha_N69D", "shape": "dot", "title": "Support: 0.06"}, {"borderWidth": 0, "group": 1, "id": "ha_A16T", "label": "ha_A16T", "shape": "dot", "title": "Support: 0.12"}, {"borderWidth": 0, "group": 1, "id": "ha_K98R", "label": "ha_K98R", "shape": "dot", "title": "Support: 0.09"}, {"borderWidth": 0, "group": 1, "id": "ha_H72Y", "label": "ha_H72Y", "shape": "dot", "title": "Support: 0.06"}, {"borderWidth": 4, "group": 1, "id": "ha_N137D", "label": "ha_N137D", "shape": "dot", "title": "Support: 0.06"}, {"borderWidth": 4, "group": 2, "id": "na_G346V", "label": "na_G346V", "shape": "dot", "title": "Support: 0.06"}, {"borderWidth": 4, "group": 1, "id": "ha_E78G", "label": "ha_E78G", "shape": "dot", "title": "Support: 0.07"}, {"borderWidth": 4, "group": 1, "id": "ha_R158G", "label": "ha_R158G", "shape": "dot", "title": "Support: 0.06"}, {"borderWidth": 0, "group": 2, "id": "na_P126L", "label": "na_P126L", "shape": "dot", "title": "Support: 0.06"}, {"color": "f0d1ef", "id": "1", "label": "1", "shape": "box", "title": "Support: 0.39\nConfidence: 0.907\nZhang\u0027s metric: 1.0"}, {"color": "f0d1ef", "id": "2", "label": "2", "shape": "box", "title": "Support: 0.39\nConfidence: 1.0\nZhang\u0027s metric: 0.934"}, {"color": "f0d1ef", "id": "3", "label": "3", "shape": "box", "title": "Support: 0.11\nConfidence: 0.688\nZhang\u0027s metric: 0.913"}, {"color": "f0d1ef", "id": "4", "label": "4", "shape": "box", "title": "Support: 0.11\nConfidence: 0.688\nZhang\u0027s metric: 0.913"}, {"color": "f0d1ef", "id": "5", "label": "5", "shape": "box", "title": "Support: 0.14\nConfidence: 0.875\nZhang\u0027s metric: 1.0"}, {"color": "f0d1ef", "id": "6", "label": "6", "shape": "box", "title": "Support: 0.14\nConfidence: 1.0\nZhang\u0027s metric: 0.977"}, {"color": "f0d1ef", "id": "7", "label": "7", "shape": "box", "title": "Support: 0.1\nConfidence: 0.625\nZhang\u0027s metric: 0.924"}, {"color": "f0d1ef", "id": "8", "label": "8", "shape": "box", "title": "Support: 0.1\nConfidence: 0.714\nZhang\u0027s metric: 0.902"}, {"color": "f0d1ef", "id": "9", "label": "9", "shape": "box", "title": "Support: 0.1\nConfidence: 0.769\nZhang\u0027s metric: 0.94"}, {"color": "f0d1ef", "id": "10", "label": "10", "shape": "box", "title": "Support: 0.1\nConfidence: 0.714\nZhang\u0027s metric: 0.951"}, {"color": "f0d1ef", "id": "11", "label": "11", "shape": "box", "title": "Support: 0.37\nConfidence: 0.86\nZhang\u0027s metric: 0.98"}, {"color": "f0d1ef", "id": "12", "label": "12", "shape": "box", "title": "Support: 0.37\nConfidence: 0.974\nZhang\u0027s metric: 0.901"}, {"color": "f0d1ef", "id": "13", "label": "13", "shape": "box", "title": "Support: 0.36\nConfidence: 0.947\nZhang\u0027s metric: 0.949"}, {"color": "f0d1ef", "id": "14", "label": "14", "shape": "box", "title": "Support: 0.36\nConfidence: 0.923\nZhang\u0027s metric: 0.964"}, {"color": "f0d1ef", "id": "15", "label": "15", "shape": "box", "title": "Support: 0.37\nConfidence: 0.974\nZhang\u0027s metric: 0.983"}, {"color": "f0d1ef", "id": "16", "label": "16", "shape": "box", "title": "Support: 0.37\nConfidence: 0.974\nZhang\u0027s metric: 0.983"}, {"color": "f0d1ef", "id": "17", "label": "17", "shape": "box", "title": "Support: 0.36\nConfidence: 0.837\nZhang\u0027s metric: 0.958"}, {"color": "f0d1ef", "id": "18", "label": "18", "shape": "box", "title": "Support: 0.36\nConfidence: 0.947\nZhang\u0027s metric: 0.881"}, {"color": "f0d1ef", "id": "19", "label": "19", "shape": "box", "title": "Support: 0.35\nConfidence: 0.921\nZhang\u0027s metric: 0.93"}, {"color": "f0d1ef", "id": "20", "label": "20", "shape": "box", "title": "Support: 0.35\nConfidence: 0.897\nZhang\u0027s metric: 0.945"}, {"color": "f0d1ef", "id": "21", "label": "21", "shape": "box", "title": "Support: 0.05\nConfidence: 0.833\nZhang\u0027s metric: 0.579"}, {"color": "f0d1ef", "id": "22", "label": "22", "shape": "box", "title": "Support: 0.05\nConfidence: 0.833\nZhang\u0027s metric: 0.579"}, {"color": "f0d1ef", "id": "23", "label": "23", "shape": "box", "title": "Support: 0.05\nConfidence: 0.833\nZhang\u0027s metric: 0.566"}, {"color": "f0d1ef", "id": "24", "label": "24", "shape": "box", "title": "Support: 0.05\nConfidence: 0.833\nZhang\u0027s metric: 0.515"}, {"color": "f0d1ef", "id": "25", "label": "25", "shape": "box", "title": "Support: 0.1\nConfidence: 0.769\nZhang\u0027s metric: 1.0"}, {"color": "f0d1ef", "id": "26", "label": "26", "shape": "box", "title": "Support: 0.1\nConfidence: 1.0\nZhang\u0027s metric: 0.967"}, {"color": "f0d1ef", "id": "27", "label": "27", "shape": "box", "title": "Support: 0.1\nConfidence: 1.0\nZhang\u0027s metric: 0.956"}, {"color": "f0d1ef", "id": "28", "label": "28", "shape": "box", "title": "Support: 0.1\nConfidence: 0.714\nZhang\u0027s metric: 1.0"}, {"color": "f0d1ef", "id": "29", "label": "29", "shape": "box", "title": "Support: 0.1\nConfidence: 1.0\nZhang\u0027s metric: 1.0"}, {"color": "f0d1ef", "id": "30", "label": "30", "shape": "box", "title": "Support: 0.1\nConfidence: 1.0\nZhang\u0027s metric: 1.0"}, {"color": "f0d1ef", "id": "31", "label": "31", "shape": "box", "title": "Support: 0.1\nConfidence: 1.0\nZhang\u0027s metric: 0.967"}, {"color": "f0d1ef", "id": "32", "label": "32", "shape": "box", "title": "Support: 0.1\nConfidence: 0.769\nZhang\u0027s metric: 1.0"}, {"color": "f0d1ef", "id": "33", "label": "33", "shape": "box", "title": "Support: 0.1\nConfidence: 1.0\nZhang\u0027s metric: 0.956"}, {"color": "f0d1ef", "id": "34", "label": "34", "shape": "box", "title": "Support: 0.1\nConfidence: 0.714\nZhang\u0027s metric: 1.0"}, {"color": "f0d1ef", "id": "35", "label": "35", "shape": "box", "title": "Support: 0.08\nConfidence: 0.889\nZhang\u0027s metric: 0.975"}, {"color": "f0d1ef", "id": "36", "label": "36", "shape": "box", "title": "Support: 0.08\nConfidence: 0.8\nZhang\u0027s metric: 0.986"}, {"color": "f0d1ef", "id": "37", "label": "37", "shape": "box", "title": "Support: 0.08\nConfidence: 0.889\nZhang\u0027s metric: 0.975"}, {"color": "f0d1ef", "id": "38", "label": "38", "shape": "box", "title": "Support: 0.08\nConfidence: 0.8\nZhang\u0027s metric: 0.986"}, {"color": "f0d1ef", "id": "39", "label": "39", "shape": "box", "title": "Support: 0.08\nConfidence: 0.889\nZhang\u0027s metric: 0.938"}, {"color": "f0d1ef", "id": "40", "label": "40", "shape": "box", "title": "Support: 0.08\nConfidence: 0.615\nZhang\u0027s metric: 0.981"}, {"color": "f0d1ef", "id": "41", "label": "41", "shape": "box", "title": "Support: 0.08\nConfidence: 0.889\nZhang\u0027s metric: 0.926"}, {"color": "f0d1ef", "id": "42", "label": "42", "shape": "box", "title": "Support: 0.08\nConfidence: 0.571\nZhang\u0027s metric: 0.98"}, {"color": "f0d1ef", "id": "43", "label": "43", "shape": "box", "title": "Support: 0.06\nConfidence: 0.667\nZhang\u0027s metric: 1.0"}, {"color": "f0d1ef", "id": "44", "label": "44", "shape": "box", "title": "Support: 0.06\nConfidence: 1.0\nZhang\u0027s metric: 0.968"}, {"color": "f0d1ef", "id": "45", "label": "45", "shape": "box", "title": "Support: 0.06\nConfidence: 1.0\nZhang\u0027s metric: 0.957"}, {"color": "f0d1ef", "id": "46", "label": "46", "shape": "box", "title": "Support: 0.06\nConfidence: 0.6\nZhang\u0027s metric: 1.0"}, {"color": "f0d1ef", "id": "47", "label": "47", "shape": "box", "title": "Support: 0.06\nConfidence: 1.0\nZhang\u0027s metric: 0.957"}, {"color": "f0d1ef", "id": "48", "label": "48", "shape": "box", "title": "Support: 0.06\nConfidence: 0.6\nZhang\u0027s metric: 1.0"}, {"color": "f0d1ef", "id": "49", "label": "49", "shape": "box", "title": "Support: 0.06\nConfidence: 1.0\nZhang\u0027s metric: 0.926"}, {"color": "f0d1ef", "id": "50", "label": "50", "shape": "box", "title": "Support: 0.06\nConfidence: 1.0\nZhang\u0027s metric: 0.915"}, {"color": "f0d1ef", "id": "51", "label": "51", "shape": "box", "title": "Support: 0.05\nConfidence: 1.0\nZhang\u0027s metric: 0.905"}, {"color": "f0d1ef", "id": "52", "label": "52", "shape": "box", "title": "Support: 0.07\nConfidence: 1.0\nZhang\u0027s metric: 0.903"}, {"color": "f0d1ef", "id": "53", "label": "53", "shape": "box", "title": "Support: 0.35\nConfidence: 1.0\nZhang\u0027s metric: 0.954"}, {"color": "f0d1ef", "id": "54", "label": "54", "shape": "box", "title": "Support: 0.35\nConfidence: 0.921\nZhang\u0027s metric: 1.0"}, {"color": "f0d1ef", "id": "55", "label": "55", "shape": "box", "title": "Support: 0.35\nConfidence: 0.814\nZhang\u0027s metric: 1.0"}, {"color": "f0d1ef", "id": "56", "label": "56", "shape": "box", "title": "Support: 0.35\nConfidence: 1.0\nZhang\u0027s metric: 0.877"}, {"color": "f0d1ef", "id": "57", "label": "57", "shape": "box", "title": "Support: 0.34\nConfidence: 0.971\nZhang\u0027s metric: 0.937"}, {"color": "f0d1ef", "id": "58", "label": "58", "shape": "box", "title": "Support: 0.34\nConfidence: 0.895\nZhang\u0027s metric: 0.982"}, {"color": "f0d1ef", "id": "59", "label": "59", "shape": "box", "title": "Support: 0.34\nConfidence: 0.971\nZhang\u0027s metric: 0.921"}, {"color": "f0d1ef", "id": "60", "label": "60", "shape": "box", "title": "Support: 0.34\nConfidence: 0.872\nZhang\u0027s metric: 0.981"}, {"color": "f0d1ef", "id": "61", "label": "61", "shape": "box", "title": "Support: 0.06\nConfidence: 0.5\nZhang\u0027s metric: 0.932"}, {"color": "f0d1ef", "id": "62", "label": "62", "shape": "box", "title": "Support: 0.06\nConfidence: 0.667\nZhang\u0027s metric: 0.901"}, {"color": "f0d1ef", "id": "63", "label": "63", "shape": "box", "title": "Support: 0.06\nConfidence: 1.0\nZhang\u0027s metric: 0.968"}, {"color": "f0d1ef", "id": "64", "label": "64", "shape": "box", "title": "Support: 0.06\nConfidence: 0.667\nZhang\u0027s metric: 1.0"}, {"color": "f0d1ef", "id": "65", "label": "65", "shape": "box", "title": "Support: 0.06\nConfidence: 1.0\nZhang\u0027s metric: 0.936"}, {"color": "f0d1ef", "id": "66", "label": "66", "shape": "box", "title": "Support: 0.06\nConfidence: 0.5\nZhang\u0027s metric: 1.0"}, {"color": "f0d1ef", "id": "67", "label": "67", "shape": "box", "title": "Support: 0.06\nConfidence: 1.0\nZhang\u0027s metric: 1.0"}, {"color": "f0d1ef", "id": "68", "label": "68", "shape": "box", "title": "Support: 0.06\nConfidence: 1.0\nZhang\u0027s metric: 1.0"}, {"color": "f0d1ef", "id": "69", "label": "69", "shape": "box", "title": "Support: 0.06\nConfidence: 0.667\nZhang\u0027s metric: 1.0"}, {"color": "f0d1ef", "id": "70", "label": "70", "shape": "box", "title": "Support: 0.06\nConfidence: 1.0\nZhang\u0027s metric: 0.968"}, {"color": "f0d1ef", "id": "71", "label": "71", "shape": "box", "title": "Support: 0.06\nConfidence: 0.5\nZhang\u0027s metric: 1.0"}, {"color": "f0d1ef", "id": "72", "label": "72", "shape": "box", "title": "Support: 0.06\nConfidence: 1.0\nZhang\u0027s metric: 0.936"}, {"color": "f0d1ef", "id": "73", "label": "73", "shape": "box", "title": "Support: 0.06\nConfidence: 1.0\nZhang\u0027s metric: 1.0"}, {"color": "f0d1ef", "id": "74", "label": "74", "shape": "box", "title": "Support: 0.06\nConfidence: 1.0\nZhang\u0027s metric: 1.0"}, {"color": "f0d1ef", "id": "75", "label": "75", "shape": "box", "title": "Support: 0.06\nConfidence: 1.0\nZhang\u0027s metric: 1.0"}, {"color": "f0d1ef", "id": "76", "label": "76", "shape": "box", "title": "Support: 0.06\nConfidence: 1.0\nZhang\u0027s metric: 1.0"}, {"color": "f0d1ef", "id": "77", "label": "77", "shape": "box", "title": "Support: 0.06\nConfidence: 1.0\nZhang\u0027s metric: 0.968"}, {"color": "f0d1ef", "id": "78", "label": "78", "shape": "box", "title": "Support: 0.06\nConfidence: 0.667\nZhang\u0027s metric: 1.0"}, {"color": "f0d1ef", "id": "79", "label": "79", "shape": "box", "title": "Support: 0.06\nConfidence: 0.5\nZhang\u0027s metric: 1.0"}, {"color": "f0d1ef", "id": "80", "label": "80", "shape": "box", "title": "Support: 0.06\nConfidence: 1.0\nZhang\u0027s metric: 0.936"}, {"color": "f0d1ef", "id": "81", "label": "81", "shape": "box", "title": "Support: 0.06\nConfidence: 1.0\nZhang\u0027s metric: 0.989"}, {"color": "f0d1ef", "id": "82", "label": "82", "shape": "box", "title": "Support: 0.06\nConfidence: 0.857\nZhang\u0027s metric: 1.0"}, {"color": "f0d1ef", "id": "83", "label": "83", "shape": "box", "title": "Support: 0.05\nConfidence: 0.833\nZhang\u0027s metric: 0.987"}, {"color": "f0d1ef", "id": "84", "label": "84", "shape": "box", "title": "Support: 0.05\nConfidence: 0.833\nZhang\u0027s metric: 0.987"}, {"color": "f0d1ef", "id": "85", "label": "85", "shape": "box", "title": "Support: 0.05\nConfidence: 0.714\nZhang\u0027s metric: 0.985"}, {"color": "f0d1ef", "id": "86", "label": "86", "shape": "box", "title": "Support: 0.05\nConfidence: 0.833\nZhang\u0027s metric: 0.974"}]);
+                  edges = new vis.DataSet([{"arrows": "to", "color": "6CC776", "from": "na_P386S", "to": "1", "value": 0.39}, {"arrows": "to", "color": "6CC776", "from": "1", "to": "na_N161S", "value": 0.39}, {"arrows": "to", "color": "6CC776", "from": "na_N161S", "to": "2", "value": 0.39}, {"arrows": "to", "color": "6CC776", "from": "2", "to": "na_P386S", "value": 0.39}, {"arrows": "to", "color": "6CC776", "from": "na_I307M", "to": "3", "value": 0.11}, {"arrows": "to", "color": "6CC776", "from": "3", "to": "ha_A228T", "value": 0.11}, {"arrows": "to", "color": "6CC776", "from": "ha_A228T", "to": "4", "value": 0.11}, {"arrows": "to", "color": "6CC776", "from": "4", "to": "na_I307M", "value": 0.11}, {"arrows": "to", "color": "6CC776", "from": "na_I307M", "to": "5", "value": 0.14}, {"arrows": "to", "color": "6CC776", "from": "5", "to": "ha_M478T", "value": 0.14}, {"arrows": "to", "color": "6CC776", "from": "ha_M478T", "to": "6", "value": 0.14}, {"arrows": "to", "color": "6CC776", "from": "6", "to": "na_I307M", "value": 0.14}, {"arrows": "to", "color": "6CC776", "from": "ha_A228T", "to": "7", "value": 0.1}, {"arrows": "to", "color": "6CC776", "from": "7", "to": "ha_M478T", "value": 0.1}, {"arrows": "to", "color": "6CC776", "from": "ha_M478T", "to": "8", "value": 0.1}, {"arrows": "to", "color": "6CC776", "from": "8", "to": "ha_A228T", "value": 0.1}, {"arrows": "to", "color": "6CC776", "from": "ha_V545I", "to": "9", "value": 0.1}, {"arrows": "to", "color": "6CC776", "from": "9", "to": "na_S315R", "value": 0.1}, {"arrows": "to", "color": "6CC776", "from": "na_S315R", "to": "10", "value": 0.1}, {"arrows": "to", "color": "6CC776", "from": "10", "to": "ha_V545I", "value": 0.1}, {"arrows": "to", "color": "6CC776", "from": "na_P386S", "to": "11", "value": 0.37}, {"arrows": "to", "color": "6CC776", "from": "11", "to": "ha_M362L", "value": 0.37}, {"arrows": "to", "color": "6CC776", "from": "ha_M362L", "to": "12", "value": 0.37}, {"arrows": "to", "color": "6CC776", "from": "12", "to": "na_P386S", "value": 0.37}, {"arrows": "to", "color": "6CC776", "from": "ha_M362L", "to": "13", "value": 0.36}, {"arrows": "to", "color": "6CC776", "from": "13", "to": "na_N161S", "value": 0.36}, {"arrows": "to", "color": "6CC776", "from": "na_N161S", "to": "14", "value": 0.36}, {"arrows": "to", "color": "6CC776", "from": "14", "to": "ha_M362L", "value": 0.36}, {"arrows": "to", "color": "6CC776", "from": "ha_M362L", "to": "15", "value": 0.37}, {"arrows": "to", "color": "6CC776", "from": "15", "to": "ha_A546V", "value": 0.37}, {"arrows": "to", "color": "6CC776", "from": "ha_A546V", "to": "16", "value": 0.37}, {"arrows": "to", "color": "6CC776", "from": "16", "to": "ha_M362L", "value": 0.37}, {"arrows": "to", "color": "6CC776", "from": "na_P386S", "to": "17", "value": 0.36}, {"arrows": "to", "color": "6CC776", "from": "17", "to": "ha_A546V", "value": 0.36}, {"arrows": "to", "color": "6CC776", "from": "ha_A546V", "to": "18", "value": 0.36}, {"arrows": "to", "color": "6CC776", "from": "18", "to": "na_P386S", "value": 0.36}, {"arrows": "to", "color": "6CC776", "from": "ha_A546V", "to": "19", "value": 0.35}, {"arrows": "to", "color": "6CC776", "from": "19", "to": "na_N161S", "value": 0.35}, {"arrows": "to", "color": "6CC776", "from": "na_N161S", "to": "20", "value": 0.35}, {"arrows": "to", "color": "6CC776", "from": "20", "to": "ha_A546V", "value": 0.35}, {"arrows": "to", "color": "grey", "from": "na_G399D", "to": "21", "value": 0.05}, {"arrows": "to", "color": "grey", "from": "21", "to": "ha_A546V", "value": 0.05}, {"arrows": "to", "color": "grey", "from": "na_G399D", "to": "22", "value": 0.05}, {"arrows": "to", "color": "grey", "from": "22", "to": "ha_M362L", "value": 0.05}, {"arrows": "to", "color": "grey", "from": "na_G399D", "to": "23", "value": 0.05}, {"arrows": "to", "color": "grey", "from": "23", "to": "na_N161S", "value": 0.05}, {"arrows": "to", "color": "grey", "from": "na_G399D", "to": "24", "value": 0.05}, {"arrows": "to", "color": "grey", "from": "24", "to": "na_P386S", "value": 0.05}, {"arrows": "to", "color": "6CC776", "from": "ha_V545I", "to": "25", "value": 0.1}, {"arrows": "to", "color": "6CC776", "from": "25", "to": "na_E344K", "value": 0.1}, {"arrows": "to", "color": "6CC776", "from": "na_E344K", "to": "26", "value": 0.1}, {"arrows": "to", "color": "6CC776", "from": "26", "to": "ha_V545I", "value": 0.1}, {"arrows": "to", "color": "6CC776", "from": "na_E344K", "to": "27", "value": 0.1}, {"arrows": "to", "color": "6CC776", "from": "27", "to": "na_S315R", "value": 0.1}, {"arrows": "to", "color": "6CC776", "from": "na_S315R", "to": "28", "value": 0.1}, {"arrows": "to", "color": "6CC776", "from": "28", "to": "na_E344K", "value": 0.1}, {"arrows": "to", "color": "6CC776", "from": "ha_T147K", "to": "29", "value": 0.1}, {"arrows": "to", "color": "6CC776", "from": "29", "to": "na_E344K", "value": 0.1}, {"arrows": "to", "color": "6CC776", "from": "na_E344K", "to": "30", "value": 0.1}, {"arrows": "to", "color": "6CC776", "from": "30", "to": "ha_T147K", "value": 0.1}, {"arrows": "to", "color": "6CC776", "from": "ha_T147K", "to": "31", "value": 0.1}, {"arrows": "to", "color": "6CC776", "from": "31", "to": "ha_V545I", "value": 0.1}, {"arrows": "to", "color": "6CC776", "from": "ha_V545I", "to": "32", "value": 0.1}, {"arrows": "to", "color": "6CC776", "from": "32", "to": "ha_T147K", "value": 0.1}, {"arrows": "to", "color": "6CC776", "from": "ha_T147K", "to": "33", "value": 0.1}, {"arrows": "to", "color": "6CC776", "from": "33", "to": "na_S315R", "value": 0.1}, {"arrows": "to", "color": "6CC776", "from": "na_S315R", "to": "34", "value": 0.1}, {"arrows": "to", "color": "6CC776", "from": "34", "to": "ha_T147K", "value": 0.1}, {"arrows": "to", "color": "6CC776", "from": "ha_V363M", "to": "35", "value": 0.08}, {"arrows": "to", "color": "6CC776", "from": "35", "to": "ha_T147K", "value": 0.08}, {"arrows": "to", "color": "6CC776", "from": "ha_T147K", "to": "36", "value": 0.08}, {"arrows": "to", "color": "6CC776", "from": "36", "to": "ha_V363M", "value": 0.08}, {"arrows": "to", "color": "6CC776", "from": "ha_V363M", "to": "37", "value": 0.08}, {"arrows": "to", "color": "6CC776", "from": "37", "to": "na_E344K", "value": 0.08}, {"arrows": "to", "color": "6CC776", "from": "na_E344K", "to": "38", "value": 0.08}, {"arrows": "to", "color": "6CC776", "from": "38", "to": "ha_V363M", "value": 0.08}, {"arrows": "to", "color": "6CC776", "from": "ha_V363M", "to": "39", "value": 0.08}, {"arrows": "to", "color": "6CC776", "from": "39", "to": "ha_V545I", "value": 0.08}, {"arrows": "to", "color": "6CC776", "from": "ha_V545I", "to": "40", "value": 0.08}, {"arrows": "to", "color": "6CC776", "from": "40", "to": "ha_V363M", "value": 0.08}, {"arrows": "to", "color": "6CC776", "from": "ha_V363M", "to": "41", "value": 0.08}, {"arrows": "to", "color": "6CC776", "from": "41", "to": "na_S315R", "value": 0.08}, {"arrows": "to", "color": "6CC776", "from": "na_S315R", "to": "42", "value": 0.08}, {"arrows": "to", "color": "6CC776", "from": "42", "to": "ha_V363M", "value": 0.08}, {"arrows": "to", "color": "6CC776", "from": "ha_V363M", "to": "43", "value": 0.06}, {"arrows": "to", "color": "6CC776", "from": "43", "to": "ha_S235F", "value": 0.06}, {"arrows": "to", "color": "6CC776", "from": "ha_S235F", "to": "44", "value": 0.06}, {"arrows": "to", "color": "6CC776", "from": "44", "to": "ha_V363M", "value": 0.06}, {"arrows": "to", "color": "6CC776", "from": "ha_S235F", "to": "45", "value": 0.06}, {"arrows": "to", "color": "6CC776", "from": "45", "to": "ha_T147K", "value": 0.06}, {"arrows": "to", "color": "6CC776", "from": "ha_T147K", "to": "46", "value": 0.06}, {"arrows": "to", "color": "6CC776", "from": "46", "to": "ha_S235F", "value": 0.06}, {"arrows": "to", "color": "6CC776", "from": "ha_S235F", "to": "47", "value": 0.06}, {"arrows": "to", "color": "6CC776", "from": "47", "to": "na_E344K", "value": 0.06}, {"arrows": "to", "color": "6CC776", "from": "na_E344K", "to": "48", "value": 0.06}, {"arrows": "to", "color": "6CC776", "from": "48", "to": "ha_S235F", "value": 0.06}, {"arrows": "to", "color": "6CC776", "from": "ha_S235F", "to": "49", "value": 0.06}, {"arrows": "to", "color": "6CC776", "from": "49", "to": "ha_V545I", "value": 0.06}, {"arrows": "to", "color": "6CC776", "from": "ha_S235F", "to": "50", "value": 0.06}, {"arrows": "to", "color": "6CC776", "from": "50", "to": "na_S315R", "value": 0.06}, {"arrows": "to", "color": "6CC776", "from": "na_G346D", "to": "51", "value": 0.05}, {"arrows": "to", "color": "6CC776", "from": "51", "to": "na_S315R", "value": 0.05}, {"arrows": "to", "color": "6CC776", "from": "ha_D307E", "to": "52", "value": 0.07}, {"arrows": "to", "color": "6CC776", "from": "52", "to": "ha_R49Q", "value": 0.07}, {"arrows": "to", "color": "6CC776", "from": "na_D356E", "to": "53", "value": 0.35}, {"arrows": "to", "color": "6CC776", "from": "53", "to": "ha_M362L", "value": 0.35}, {"arrows": "to", "color": "6CC776", "from": "ha_M362L", "to": "54", "value": 0.35}, {"arrows": "to", "color": "6CC776", "from": "54", "to": "na_D356E", "value": 0.35}, {"arrows": "to", "color": "6CC776", "from": "na_P386S", "to": "55", "value": 0.35}, {"arrows": "to", "color": "6CC776", "from": "55", "to": "na_D356E", "value": 0.35}, {"arrows": "to", "color": "6CC776", "from": "na_D356E", "to": "56", "value": 0.35}, {"arrows": "to", "color": "6CC776", "from": "56", "to": "na_P386S", "value": 0.35}, {"arrows": "to", "color": "6CC776", "from": "na_D356E", "to": "57", "value": 0.34}, {"arrows": "to", "color": "6CC776", "from": "57", "to": "ha_A546V", "value": 0.34}, {"arrows": "to", "color": "6CC776", "from": "ha_A546V", "to": "58", "value": 0.34}, {"arrows": "to", "color": "6CC776", "from": "58", "to": "na_D356E", "value": 0.34}, {"arrows": "to", "color": "6CC776", "from": "na_D356E", "to": "59", "value": 0.34}, {"arrows": "to", "color": "6CC776", "from": "59", "to": "na_N161S", "value": 0.34}, {"arrows": "to", "color": "6CC776", "from": "na_N161S", "to": "60", "value": 0.34}, {"arrows": "to", "color": "6CC776", "from": "60", "to": "na_D356E", "value": 0.34}, {"arrows": "to", "color": "6CC776", "from": "ha_A16T", "to": "61", "value": 0.06}, {"arrows": "to", "color": "6CC776", "from": "61", "to": "ha_K98R", "value": 0.06}, {"arrows": "to", "color": "6CC776", "from": "ha_K98R", "to": "62", "value": 0.06}, {"arrows": "to", "color": "6CC776", "from": "62", "to": "ha_A16T", "value": 0.06}, {"arrows": "to", "color": "6CC776", "from": "ha_H72Y", "to": "63", "value": 0.06}, {"arrows": "to", "color": "6CC776", "from": "63", "to": "ha_K98R", "value": 0.06}, {"arrows": "to", "color": "6CC776", "from": "ha_K98R", "to": "64", "value": 0.06}, {"arrows": "to", "color": "6CC776", "from": "64", "to": "ha_H72Y", "value": 0.06}, {"arrows": "to", "color": "6CC776", "from": "ha_H72Y", "to": "65", "value": 0.06}, {"arrows": "to", "color": "6CC776", "from": "65", "to": "ha_A16T", "value": 0.06}, {"arrows": "to", "color": "6CC776", "from": "ha_A16T", "to": "66", "value": 0.06}, {"arrows": "to", "color": "6CC776", "from": "66", "to": "ha_H72Y", "value": 0.06}, {"arrows": "to", "color": "6CC776", "from": "ha_H72Y", "to": "67", "value": 0.06}, {"arrows": "to", "color": "6CC776", "from": "67", "to": "ha_N137D", "value": 0.06}, {"arrows": "to", "color": "6CC776", "from": "ha_N137D", "to": "68", "value": 0.06}, {"arrows": "to", "color": "6CC776", "from": "68", "to": "ha_H72Y", "value": 0.06}, {"arrows": "to", "color": "6CC776", "from": "ha_K98R", "to": "69", "value": 0.06}, {"arrows": "to", "color": "6CC776", "from": "69", "to": "ha_N137D", "value": 0.06}, {"arrows": "to", "color": "6CC776", "from": "ha_N137D", "to": "70", "value": 0.06}, {"arrows": "to", "color": "6CC776", "from": "70", "to": "ha_K98R", "value": 0.06}, {"arrows": "to", "color": "6CC776", "from": "ha_A16T", "to": "71", "value": 0.06}, {"arrows": "to", "color": "6CC776", "from": "71", "to": "ha_N137D", "value": 0.06}, {"arrows": "to", "color": "6CC776", "from": "ha_N137D", "to": "72", "value": 0.06}, {"arrows": "to", "color": "6CC776", "from": "72", "to": "ha_A16T", "value": 0.06}, {"arrows": "to", "color": "6CC776", "from": "na_G346V", "to": "73", "value": 0.06}, {"arrows": "to", "color": "6CC776", "from": "73", "to": "ha_N137D", "value": 0.06}, {"arrows": "to", "color": "6CC776", "from": "ha_N137D", "to": "74", "value": 0.06}, {"arrows": "to", "color": "6CC776", "from": "74", "to": "na_G346V", "value": 0.06}, {"arrows": "to", "color": "6CC776", "from": "ha_H72Y", "to": "75", "value": 0.06}, {"arrows": "to", "color": "6CC776", "from": "75", "to": "na_G346V", "value": 0.06}, {"arrows": "to", "color": "6CC776", "from": "na_G346V", "to": "76", "value": 0.06}, {"arrows": "to", "color": "6CC776", "from": "76", "to": "ha_H72Y", "value": 0.06}, {"arrows": "to", "color": "6CC776", "from": "na_G346V", "to": "77", "value": 0.06}, {"arrows": "to", "color": "6CC776", "from": "77", "to": "ha_K98R", "value": 0.06}, {"arrows": "to", "color": "6CC776", "from": "ha_K98R", "to": "78", "value": 0.06}, {"arrows": "to", "color": "6CC776", "from": "78", "to": "na_G346V", "value": 0.06}, {"arrows": "to", "color": "6CC776", "from": "ha_A16T", "to": "79", "value": 0.06}, {"arrows": "to", "color": "6CC776", "from": "79", "to": "na_G346V", "value": 0.06}, {"arrows": "to", "color": "6CC776", "from": "na_G346V", "to": "80", "value": 0.06}, {"arrows": "to", "color": "6CC776", "from": "80", "to": "ha_A16T", "value": 0.06}, {"arrows": "to", "color": "6CC776", "from": "ha_R158G", "to": "81", "value": 0.06}, {"arrows": "to", "color": "6CC776", "from": "81", "to": "ha_E78G", "value": 0.06}, {"arrows": "to", "color": "6CC776", "from": "ha_E78G", "to": "82", "value": 0.06}, {"arrows": "to", "color": "6CC776", "from": "82", "to": "ha_R158G", "value": 0.06}, {"arrows": "to", "color": "6CC776", "from": "ha_R158G", "to": "83", "value": 0.05}, {"arrows": "to", "color": "6CC776", "from": "83", "to": "na_P126L", "value": 0.05}, {"arrows": "to", "color": "6CC776", "from": "na_P126L", "to": "84", "value": 0.05}, {"arrows": "to", "color": "6CC776", "from": "84", "to": "ha_R158G", "value": 0.05}, {"arrows": "to", "color": "6CC776", "from": "ha_E78G", "to": "85", "value": 0.05}, {"arrows": "to", "color": "6CC776", "from": "85", "to": "na_P126L", "value": 0.05}, {"arrows": "to", "color": "6CC776", "from": "na_P126L", "to": "86", "value": 0.05}, {"arrows": "to", "color": "6CC776", "from": "86", "to": "ha_E78G", "value": 0.05}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "repulsion": {
+            "centralGravity": 0.2,
+            "damping": 0.09,
+            "nodeDistance": 100,
+            "springConstant": 0.05,
+            "springLength": 200
+        },
+        "solver": "repulsion",
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+                      network.on("stabilizationProgress", function(params) {
+                          document.getElementById('loadingBar').removeAttribute("style");
+                          var maxWidth = 496;
+                          var minWidth = 20;
+                          var widthFactor = params.iterations/params.total;
+                          var width = Math.max(minWidth,maxWidth * widthFactor);
+                          document.getElementById('bar').style.width = width + 'px';
+                          document.getElementById('text').innerHTML = Math.round(widthFactor*100) + '%';
+                      });
+                      network.once("stabilizationIterationsDone", function() {
+                          document.getElementById('text').innerHTML = '100%';
+                          document.getElementById('bar').style.width = '496px';
+                          document.getElementById('loadingBar').style.opacity = 0;
+                          // really clean the dom element
+                          setTimeout(function () {document.getElementById('loadingBar').style.display = 'none';}, 500);
+                      });
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>The network includes all mutations with <b>minimum support &gt;=0.05</b> and <b>minimum confidence &gt;= 0.5. </b>Each pink box represents a rule. Support, Confidence, and Zhang's metric can be visualized by pointing the cursor directly on the node. <br />Each mutation is a node and the support for the individual mutation can be visualized by pointing the cursor on the node. HA and NA mutation nodes have different colors. <br />Mutations in the antigenic regions have a colored border around the node. <br />Each rule has directed edges coming out and in, according to the direction of the rule. The thickness of the edge indicates the support of the rule and rules with a high Zhang's metric (likely to be associated) are indicated with a green line.<h1>Analysis and prediction</h1>Analysis of the most relevant mutations. Mutations in red occurred in the antigenic region.<h2>Possible drivers of evolution</h2>This list is obtained by extracting the nodes with indegree - outdegree &gt;= 2. Mutations with a higher out degree are likely to be key mutations of the virus, as this means that they cannot be predicted by the occurrence of other mutations, but many other mutations are associated with them.<table class="table table-bordered table-responsive table-striped"><thead class="thead-light"><tr><th>Protein</th><th>Mutation</th><th>Aminoacid position</th><th>Support</th></tr><tr><td>Neuraminidase</td><td>S -&gt; R</td><td>315</td><td>0.14</td></tr></thead></table><h2>List of predicted co-occurring mutations</h2>The following list includes all pair of association that has a high Zhang's metric<table class="table table-bordered table-responsive table-striped"><thead class="thead-light"><tr><th>Mutations</th><th>Support</th><th>Zhangs metrics</th></tr><tr><td>na_P386S  &lt;-&gt; na_N161S</td><td>0.39</td><td>[1.0, 0.934]</td></tr><tr><td>na_P386S  &lt;-&gt; ha_M362L</td><td>0.37</td><td>[0.98, 0.901]</td></tr><tr><td>ha_M362L  &lt;-&gt; ha_A546V</td><td>0.37</td><td>[0.983, 0.983]</td></tr><tr><td>ha_M362L  &lt;-&gt; na_N161S</td><td>0.36</td><td>[0.949, 0.964]</td></tr><tr><td>na_P386S  &lt;-&gt; ha_A546V</td><td>0.36</td><td>[0.958, 0.881]</td></tr><tr><td>ha_A546V  &lt;-&gt; na_N161S</td><td>0.35</td><td>[0.93, 0.945]</td></tr><tr><td>na_D356E  &lt;-&gt; ha_M362L</td><td>0.35</td><td>[0.954, 1.0]</td></tr><tr><td>na_P386S  &lt;-&gt; na_D356E</td><td>0.35</td><td>[1.0, 0.877]</td></tr><tr><td>na_D356E  &lt;-&gt; ha_A546V</td><td>0.34</td><td>[0.937, 0.982]</td></tr><tr><td>na_D356E  &lt;-&gt; na_N161S</td><td>0.34</td><td>[0.921, 0.981]</td></tr><tr><td>na_I307M  &lt;-&gt; ha_M478T</td><td>0.14</td><td>[1.0, 0.977]</td></tr><tr><td>na_I307M  &lt;-&gt; <p>ha_A228T</p></td><td>0.11</td><td>[0.913, 0.913]</td></tr><tr><td><p>ha_A228T</p>  &lt;-&gt; ha_M478T</td><td>0.1</td><td>[0.924, 0.902]</td></tr><tr><td>ha_V545I  &lt;-&gt; na_S315R</td><td>0.1</td><td>[0.94, 0.951]</td></tr><tr><td>ha_V545I  &lt;-&gt; <p>na_E344K</p></td><td>0.1</td><td>[1.0, 0.967]</td></tr><tr><td><p>na_E344K</p>  &lt;-&gt; na_S315R</td><td>0.1</td><td>[0.956, 1.0]</td></tr><tr><td>ha_T147K  &lt;-&gt; <p>na_E344K</p></td><td>0.1</td><td>[1.0, 1.0]</td></tr><tr><td>ha_T147K  &lt;-&gt; ha_V545I</td><td>0.1</td><td>[0.967, 1.0]</td></tr><tr><td>ha_T147K  &lt;-&gt; na_S315R</td><td>0.1</td><td>[0.956, 1.0]</td></tr><tr><td>ha_V363M  &lt;-&gt; ha_T147K</td><td>0.08</td><td>[0.975, 0.986]</td></tr><tr><td>ha_V363M  &lt;-&gt; <p>na_E344K</p></td><td>0.08</td><td>[0.975, 0.986]</td></tr><tr><td>ha_V363M  &lt;-&gt; ha_V545I</td><td>0.08</td><td>[0.938, 0.981]</td></tr><tr><td>ha_V363M  &lt;-&gt; na_S315R</td><td>0.08</td><td>[0.926, 0.98]</td></tr><tr><td>ha_D307E  -&gt; ha_R49Q</td><td>0.07</td><td>[0.903]</td></tr><tr><td>ha_V363M  &lt;-&gt; ha_S235F</td><td>0.06</td><td>[1.0, 0.968]</td></tr><tr><td>ha_S235F  &lt;-&gt; ha_T147K</td><td>0.06</td><td>[0.957, 1.0]</td></tr><tr><td>ha_S235F  &lt;-&gt; <p>na_E344K</p></td><td>0.06</td><td>[0.957, 1.0]</td></tr><tr><td>ha_S235F  -&gt; ha_V545I</td><td>0.06</td><td>[0.926]</td></tr><tr><td>ha_S235F  -&gt; na_S315R</td><td>0.06</td><td>[0.915]</td></tr><tr><td>ha_A16T  &lt;-&gt; ha_K98R</td><td>0.06</td><td>[0.932, 0.901]</td></tr><tr><td>ha_H72Y  &lt;-&gt; ha_K98R</td><td>0.06</td><td>[0.968, 1.0]</td></tr><tr><td>ha_H72Y  &lt;-&gt; ha_A16T</td><td>0.06</td><td>[0.936, 1.0]</td></tr><tr><td>ha_H72Y  &lt;-&gt; <p>ha_N137D</p></td><td>0.06</td><td>[1.0, 1.0]</td></tr><tr><td>ha_K98R  &lt;-&gt; <p>ha_N137D</p></td><td>0.06</td><td>[1.0, 0.968]</td></tr><tr><td>ha_A16T  &lt;-&gt; <p>ha_N137D</p></td><td>0.06</td><td>[1.0, 0.936]</td></tr><tr><td><p>na_G346V</p>  &lt;-&gt; <p>ha_N137D</p></td><td>0.06</td><td>[1.0, 1.0]</td></tr><tr><td>ha_H72Y  &lt;-&gt; <p>na_G346V</p></td><td>0.06</td><td>[1.0, 1.0]</td></tr><tr><td><p>na_G346V</p>  &lt;-&gt; ha_K98R</td><td>0.06</td><td>[0.968, 1.0]</td></tr><tr><td>ha_A16T  &lt;-&gt; <p>na_G346V</p></td><td>0.06</td><td>[1.0, 0.936]</td></tr><tr><td><p>ha_R158G</p>  &lt;-&gt; <p>ha_E78G</p></td><td>0.06</td><td>[0.989, 1.0]</td></tr><tr><td>na_G346D  -&gt; na_S315R</td><td>0.05</td><td>[0.905]</td></tr><tr><td><p>ha_R158G</p>  &lt;-&gt; na_P126L</td><td>0.05</td><td>[0.987, 0.987]</td></tr><tr><td><p>ha_E78G</p>  &lt;-&gt; na_P126L</td><td>0.05</td><td>[0.985, 0.974]</td></tr></thead></table><h3>Co-occurring clusters of mutations</h3>Connected component network analysis is used to identify the subgraphs in which each pair of nodes is connected with each other via a path.<table class="table table-bordered table-responsive table-striped"><thead class="thead-light"><tr><th>Clusters of mutations</th></tr><tr><td>na_D356E, na_N161S, ha_M362L, na_P386S, ha_A546V, </td></tr><tr><td>na_I307M, ha_M478T, <p>ha_A228T</p>, </td></tr><tr><td>ha_T147K, ha_V545I, na_S315R, <p>na_G346D</p>, ha_V363M, ha_S235F, <p>na_E344K</p>, </td></tr><tr><td><p>ha_D307E</p>, ha_R49Q, </td></tr><tr><td>ha_A16T, <p>na_G346V</p>, <p>ha_N137D</p>, ha_K98R, ha_H72Y, </td></tr><tr><td><p>ha_R158G</p>, <p>ha_E78G</p>, na_P126L, </td></tr></thead></table><h2>N-glycosylation site prediction<table class="table table-bordered table-responsive table-striped"><thead class="thead-light"><tr><th>Emerging N-glycosylation sites</th><th>Support</th></tr></thead></table><table class="table table-bordered table-responsive table-striped"><thead class="thead-light"><tr><th>Disappearing N-glycosylation sites</th><th>Support</th></tr><tr><td>na_N161S</td><td>0.39</td></tr><tr><td>ha_N69D</td><td>0.06</td></tr><tr><td>ha_N137D</td><td>0.06</td></tr></thead></table></h2></html>
