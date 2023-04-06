@@ -2,7 +2,7 @@ from antigenic_sites import antigenic_sites
 import networkx as nx
 from yattag import Doc
 
-def create_document(name_file, bin_1, bin_2, min_support, net, G, key_mutation, single_mutation_support, co_occurring, N_sites_prediction, N_sites_reverse):
+def create_document(name_file, path_results, bin_1, bin_2, min_support, net, G, key_mutation, single_mutation_support, co_occurring, N_sites_prediction, N_sites_reverse):
 	doc, tag, text, line = Doc().ttl()
 	with tag('head'):
 		with tag('style'):
@@ -179,12 +179,12 @@ def create_document(name_file, bin_1, bin_2, min_support, net, G, key_mutation, 
 									
 									
 	
-	f = open("results_html/" + name_file, "w")
+	f = open(path_results + name_file, "w")
 	f.write(doc.getvalue())
 	f.close()
 
 	
-def create_clusters_summary_document(data_table_clusters, name_file = "co_occurring_clusters.html"):
+def create_clusters_summary_document(path_results, data_table_clusters, name_file = "co_occurring_clusters.html"):
 	doc, tag, text = Doc().tagtext()
 	
 	#
@@ -286,7 +286,7 @@ def create_clusters_summary_document(data_table_clusters, name_file = "co_occurr
 			
 
 									
-	f = open("results_html/" + name_file, "w")
+	f = open(path_results + name_file, "w")
 	f.write(doc.getvalue())
 	f.close()
 	

@@ -1,0 +1,5 @@
+# ignore the results folder
+
+results_html/
+results_html_*/
+
